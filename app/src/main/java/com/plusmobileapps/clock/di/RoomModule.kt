@@ -2,7 +2,6 @@ package com.plusmobileapps.clock.di
 
 import android.arch.persistence.room.Room
 import android.content.Context
-import com.plusmobileapps.clock.alarm.landing.AlarmsViewModel
 import com.plusmobileapps.clock.data.AlarmRepository
 import com.plusmobileapps.clock.data.AppDatabase
 import com.plusmobileapps.clock.data.daos.AlarmDao
@@ -29,6 +28,4 @@ class RoomModule(private val appContext: Context) {
     @Singleton
     fun provideAlarmRepository(alarmDao: AlarmDao) = AlarmRepository(alarmDao)
 
-    @Provides
-    fun provideAlarmViewModel(alarmRepository: AlarmRepository) = AlarmsViewModel(alarmRepository)
 }

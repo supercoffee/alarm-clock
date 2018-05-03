@@ -6,7 +6,10 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(RoomModule::class))
+@Component(modules = arrayOf(
+        RoomModule::class,
+        TimersModule::class
+))
 interface AppComponent {
 
     fun inject(alarmFragment: AlarmFragment)

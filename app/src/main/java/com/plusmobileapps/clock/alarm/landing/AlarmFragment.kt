@@ -44,7 +44,7 @@ class AlarmFragment : Fragment(){
         override fun alarmTimeClicked(position: Int) {
             val alarm = viewModel.getAlarm(position)
             alarm?.let {
-                timePicker.pickTime(it)
+                timePicker.pickTime(activity, alarm)
             }
         }
 
@@ -64,7 +64,7 @@ class AlarmFragment : Fragment(){
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        add_alarm_button.setOnClickListener { timePicker.pickTime(Alarm()) }
+        add_alarm_button.setOnClickListener { timePicker.pickTime(activity, Alarm()) }
         recycler_view.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = alarmAdapter
