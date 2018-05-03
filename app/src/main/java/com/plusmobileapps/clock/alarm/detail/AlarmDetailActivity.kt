@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.plusmobileapps.clock.MyApplication
 import com.plusmobileapps.clock.R
-import com.plusmobileapps.clock.alarm.landing.AlarmLandingViewModel
+import com.plusmobileapps.clock.alarm.landing.AlarmsViewModel
 import com.plusmobileapps.clock.alarm.landing.EXTRA_ALARM_ID
 import com.plusmobileapps.clock.data.entities.Alarm
 import kotlinx.android.synthetic.main.activity_alarm_detail.*
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class AlarmDetailActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var viewModel: AlarmLandingViewModel
+    lateinit var viewModel: AlarmsViewModel
     private lateinit var alarm: LiveData<Alarm>
 
     override fun onCreate(savedInstanceState: Bundle?) {

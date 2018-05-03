@@ -29,7 +29,8 @@ class AlarmFragment : Fragment(){
     }
 
     @Inject
-    lateinit var viewModel: AlarmLandingViewModel
+    lateinit var viewModel: AlarmsViewModel
+
 
     private val itemListener = object : AlarmItemListener {
         override fun alarmItemClicked(position: Int) {

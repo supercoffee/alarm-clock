@@ -6,7 +6,7 @@ import com.plusmobileapps.clock.data.AlarmRepository
 import com.plusmobileapps.clock.data.entities.Alarm
 
 
-class AlarmLandingViewModel(private val alarmRepository: AlarmRepository): ViewModel() {
+class AlarmsViewModel(private val alarmRepository: AlarmRepository): ViewModel() {
 
     private val alarms = alarmRepository.getAlarms()
 
