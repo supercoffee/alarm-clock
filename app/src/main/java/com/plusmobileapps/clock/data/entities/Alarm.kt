@@ -3,7 +3,6 @@ package com.plusmobileapps.clock.data.entities
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
-import java.time.DayOfWeek
 
 @Entity
 data class Alarm(
@@ -11,10 +10,10 @@ data class Alarm(
         var id: Int? = null,
 
         @ColumnInfo(name = "min")
-        var min: Int = -1,
+        var min: Int? = null,
 
         @ColumnInfo(name = "hour")
-        var hour: Int = -1,
+        var hour: Int? = null,
 
         @ColumnInfo(name = "enabled")
         var enabled: Boolean = true,
@@ -26,5 +25,7 @@ data class Alarm(
         var isRepeating: Boolean = false ) {
 
         fun printTime() = "$hour:$min"
+
+        fun isNewInstance() = id == null
 
 }

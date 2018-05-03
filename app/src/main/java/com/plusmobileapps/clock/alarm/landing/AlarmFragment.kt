@@ -1,6 +1,5 @@
 package com.plusmobileapps.clock.alarm.landing
 
-import android.app.TimePickerDialog
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
@@ -9,13 +8,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TimePicker
 import com.plusmobileapps.clock.MyApplication
 import com.plusmobileapps.clock.R
 import com.plusmobileapps.clock.alarm.detail.AlarmDetailActivity
 import com.plusmobileapps.clock.data.entities.Alarm
 import kotlinx.android.synthetic.main.fragment_alarm.*
-import java.util.*
 import javax.inject.Inject
 
 const val EXTRA_ALARM_ID = "alarm_id"
@@ -31,6 +28,8 @@ class AlarmFragment : Fragment(){
     @Inject
     lateinit var viewModel: AlarmsViewModel
 
+    @Inject
+    lateinit var timePicker: com.plusmobileapps.clock.alarm.landing.TimePicker
 
     private val itemListener = object : AlarmItemListener {
         override fun alarmItemClicked(position: Int) {
@@ -45,11 +44,7 @@ class AlarmFragment : Fragment(){
         override fun alarmTimeClicked(position: Int) {
             val alarm = viewModel.getAlarm(position)
             alarm?.let {
-                showTimePicker(it.hour, it.min, TimePickerDialog.OnTimeSetListener {  _: TimePicker, hour: Int, min: Int ->
-                    it.hour = hour
-                    it.min = min
-                    viewModel.updateAlarm(it)
-                })
+                timePicker.pickTime(it)
             }
         }
 
@@ -57,6 +52,7 @@ class AlarmFragment : Fragment(){
             viewModel.updateAlarmToggle(isEnabled, position)
         }
     }
+
     private val alarmAdapter by lazy {
         AlarmAdapter(listOf(), itemListener)
     }
@@ -68,7 +64,7 @@ class AlarmFragment : Fragment(){
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        add_alarm_button.setOnClickListener { showTimePicker(null, null, addAlarmTimeListener) }
+        add_alarm_button.setOnClickListener { timePicker.pickTime(Alarm()) }
         recycler_view.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = alarmAdapter
@@ -92,18 +88,5 @@ class AlarmFragment : Fragment(){
         }
         viewModel.getAlarms().observe(this, alarmsObserver)
     }
-
-    private fun showTimePicker(startHour: Int?, startMin: Int?, timeListener: TimePickerDialog.OnTimeSetListener) {
-        val c = Calendar.getInstance()
-        val hour = startHour ?: c.get(Calendar.HOUR_OF_DAY)
-        val minute = startMin ?: c.get(Calendar.MINUTE)
-        val dialog = TimePickerDialog(context, timeListener, hour, minute,true)
-        dialog.show()
-    }
-
-    private val addAlarmTimeListener = TimePickerDialog.OnTimeSetListener { _: TimePicker, hour: Int, min: Int ->
-        viewModel.addAlarm(hour, min)
-    }
-
-
+    
 }
