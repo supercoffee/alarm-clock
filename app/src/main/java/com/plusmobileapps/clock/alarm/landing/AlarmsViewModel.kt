@@ -30,12 +30,9 @@ class AlarmsViewModel(private val alarmRepository: AlarmRepository): ViewModel()
     fun updateAlarm(alarm: Alarm) = alarmRepository.saveAlarm(alarm)
 
 
-    fun updateAlarmToggle(enabled: Boolean, position: Int) {
-        if (alarms.value != null) {
-            val alarm = alarms.value!![position]
+    fun updateAlarmToggle(enabled: Boolean, alarm: Alarm) {
             alarm.enabled = enabled
             alarmRepository.saveAlarm(alarm)
-        }
     }
 
 }

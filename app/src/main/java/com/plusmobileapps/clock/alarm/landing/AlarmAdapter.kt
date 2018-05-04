@@ -11,9 +11,9 @@ import com.plusmobileapps.clock.data.entities.Alarm
 import kotlinx.android.synthetic.main.view_holder_alarm.view.*
 
 interface AlarmItemListener {
-    fun alarmItemClicked(position: Int)
-    fun alarmTimeClicked(position: Int)
-    fun alarmSwitchToggled(position: Int, isEnabled: Boolean)
+    fun alarmItemClicked(alarm: Alarm)
+    fun alarmTimeClicked(alarm: Alarm)
+    fun alarmSwitchToggled(alarm: Alarm, isEnabled: Boolean)
 }
 
 class AlarmAdapter(var alarms: List<Alarm>, private val itemListener: AlarmItemListener) : RecyclerView.Adapter<AlarmAdapter.AlarmViewHolder>() {
@@ -28,23 +28,25 @@ class AlarmAdapter(var alarms: List<Alarm>, private val itemListener: AlarmItemL
 
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
         val alarm = alarms[position]
-        holder.alarmToggle.isChecked = alarm.enabled
-        holder.alarmTime.text = alarm.printTime()
+        holder.bind(alarm)
     }
 
-    class AlarmViewHolder(itemView: View, itemListener: AlarmItemListener) : RecyclerView.ViewHolder(itemView) {
-        val alarmToggle: Switch = itemView.alarm_toggle
-        val alarmTime: TextView = itemView.edit_time_button
+    class AlarmViewHolder(itemView: View, private val itemListener: AlarmItemListener) : RecyclerView.ViewHolder(itemView) {
+        private val alarmToggle: Switch = itemView.alarm_toggle
+        private val alarmTime: TextView = itemView.edit_time_button
 
-        init {
+        fun bind(alarm: Alarm) {
+            alarmToggle.isChecked = alarm.enabled
+            alarmTime.text = alarm.printTime()
+
             alarmTime.setOnClickListener{
-                itemListener.alarmTimeClicked(adapterPosition)
+                itemListener.alarmTimeClicked(alarm)
             }
             itemView.setOnClickListener{
-                itemListener.alarmItemClicked(adapterPosition)
+                itemListener.alarmItemClicked(alarm)
             }
             alarmToggle.setOnCheckedChangeListener{ _, isChecked ->
-                itemListener.alarmSwitchToggled(adapterPosition, isChecked)
+                itemListener.alarmSwitchToggled(alarm, isChecked)
             }
         }
     }

@@ -32,24 +32,22 @@ class AlarmFragment : Fragment(){
     lateinit var timePicker: com.plusmobileapps.clock.alarm.landing.TimePicker
 
     private val itemListener = object : AlarmItemListener {
-        override fun alarmItemClicked(position: Int) {
-            val id = viewModel.getAlarmId(position)
-            id?.let {
+        override fun alarmItemClicked(alarm: Alarm) {
+            alarm.id?.let {
                 val intent = Intent(context, AlarmDetailActivity::class.java)
                 intent.putExtra(EXTRA_ALARM_ID, it)
                 startActivity(intent)
             }
         }
 
-        override fun alarmTimeClicked(position: Int) {
-            val alarm = viewModel.getAlarm(position)
-            alarm?.let {
+        override fun alarmTimeClicked(alarm: Alarm) {
+            alarm.let {
                 timePicker.pickTime(activity, alarm)
             }
         }
 
-        override fun alarmSwitchToggled(position: Int, isEnabled: Boolean) {
-            viewModel.updateAlarmToggle(isEnabled, position)
+        override fun alarmSwitchToggled(alarm: Alarm, isEnabled: Boolean) {
+            viewModel.updateAlarmToggle(isEnabled, alarm)
         }
     }
 
